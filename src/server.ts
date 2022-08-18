@@ -1,6 +1,6 @@
 import express from "express"
 import mongoose from "mongoose"
-import { DATABASE_URL } from "./config"
+import { DATABASE_URL, PORT } from "./config"
 import UserRouter from "./routes/user"
 
 mongoose.connect(DATABASE_URL)
@@ -13,6 +13,6 @@ app.use(express.json())
 
 app.use("/user", UserRouter)
 
-app.listen(3001, ()=>{
+app.listen(PORT, ()=>{
     console.log("Server started")
 })
