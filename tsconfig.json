@@ -8,14 +8,10 @@
     "esModuleInterop": true,
     "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
     "outDir": "dist",
     "baseUrl": "src",
-    "paths": {
-      "@/*": ["*"],
-      "@models/*": ["models/*"],
-      "@routes/*": ["routes/*"],
-    }
   },
   "include": [
     "src/**/*.ts", 

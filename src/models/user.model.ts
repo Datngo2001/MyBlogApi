@@ -4,8 +4,9 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         require: true,
+        unique: true
     },
-    password: {
+    hash_password: {
         type: String,
         require: true,
     },
@@ -15,4 +16,7 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-export default mongoose.model("User", userSchema)
+
+const User = mongoose.model("User", userSchema)
+
+export default User
