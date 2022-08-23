@@ -7,10 +7,12 @@ import validateMiddleware from "../middlewares/validate.middleware";
 
 const UserRouter = express.Router();
 
-UserRouter.get("/", async (req, res) => {
+UserRouter.get("/", needloginMiddleware, async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.json(
+      users.map((user) => ({ ...user?.toObject(), hash_password: undefined }))
+    );
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -19,7 +21,7 @@ UserRouter.get("/", async (req, res) => {
 UserRouter.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.json(user);
+    res.json({ ...user?.toObject(), hash_password: undefined });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

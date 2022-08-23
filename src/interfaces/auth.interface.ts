@@ -1,10 +1,10 @@
 import { Request } from "express";
 
 export interface RequestWithUser extends Request {
-    user: TokenData;
+  user: TokenData;
 }
 
 export interface TokenData {
-    _id: number;
-    email: string
+  _id: string;
+  email: string;
 }

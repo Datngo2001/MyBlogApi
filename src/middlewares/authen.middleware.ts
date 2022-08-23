@@ -21,6 +21,7 @@ export default async function authenMiddleware(
       req.user = tokeData;
       next();
     } catch (error) {
+      console.log(error);
       req.user = undefined;
       next();
     }
