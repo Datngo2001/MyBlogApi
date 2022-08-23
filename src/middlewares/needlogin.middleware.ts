@@ -6,10 +6,10 @@ export default async function needloginMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  const user = req as RequestWithUser;
-  if (!user) {
-    res.status(401).json({ message: "You need to login" });
-    console.log(res);
+  const user = (req as RequestWithUser).user;
+  if (user) {
+    next();
+  } else {
+    return res.status(401).json({ message: "You need to login" });
   }
-  next();
 }

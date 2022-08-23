@@ -34,7 +34,7 @@ UserRouter.put(
   async (req, res) => {
     try {
       const user = await User.findById((req as RequestWithUser).user._id);
-      user?.overwrite(req.body);
+      user?.$set(req.body);
       user?.save();
       res.json(user);
     } catch (error: any) {
