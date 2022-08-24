@@ -1,8 +1,8 @@
-export class SigninDto {
+export interface SigninDto {
   email: string;
   password: string;
 }
-export class RegisterDto {
+export interface RegisterDto {
   email: string;
   password: string;
 }
