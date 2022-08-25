@@ -3,7 +3,7 @@ import express from "express";
 import { RequestWithUser } from "../interfaces/auth.interface";
 import needloginMiddleware from "../middlewares/needlogin.middleware";
 import validateMiddleware from "../middlewares/validate.middleware";
-import { CreateFavoriteDto } from "dtos/favorite.dto";
+import { CreateFavoriteDto, GetFavoriteArticleDto } from "dtos/favorite.dto";
 
 const FavoriteRouter = express.Router();
 
@@ -24,19 +24,36 @@ FavoriteRouter.get(
   }
 );
 
-FavoriteRouter.get("/favorite-article/:userId", async (req, res) => {
-  try {
-    const favorites = await Favorite.find({
-      user: req.params.userId,
-    })
-      .sort({ createDate: "desc" })
-      .populate("article");
+FavoriteRouter.get(
+  "/favorite-article",
+  validateMiddleware<GetFavoriteArticleDto>("query"),
+  async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit.toString());
+      const skip = (parseInt(req.query.page.toString()) - 1) * limit;
 
-    res.json(favorites.map((favorite) => favorite.toObject()));
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+      const query = Favorite.find({
+        user: req.query.user,
+      })
+        .sort({ createDate: "desc" })
+        .skip(skip)
+        .limit(limit)
+        .populate("article");
+
+      const favorites = await query;
+      const count = await query.clone().count();
+
+      res.json({
+        favorites: favorites.map((favorite) => ({
+          ...favorite?.toObject(),
+        })),
+        count: Math.round(count / limit) + 1,
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
   }
-});
+);
 
 FavoriteRouter.post(
   "/",
