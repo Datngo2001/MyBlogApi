@@ -38,7 +38,7 @@ ArticleRouter.get("/by-author", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit.toString());
     const skip = (parseInt(req.query.page.toString()) - 1) * limit;
-    console.log(req.query.author);
+
     const query = Article.find({
       author: req.query.author,
     })

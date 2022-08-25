@@ -7,6 +7,7 @@ import AuthRouter from "./routes/auth.route";
 import UploadRouter from "./routes/upload.route";
 import authenMiddleware from "./middlewares/authen.middleware";
 import ArticleRouter from "./routes/article.route";
+import FavoriteRouter from "./routes/favorite.route";
 
 mongoose.connect(DATABASE_URL);
 const database = mongoose.connection;
@@ -27,6 +28,7 @@ app.use("/auth", AuthRouter);
 app.use("/user", UserRouter);
 app.use("/upload", UploadRouter);
 app.use("/article", ArticleRouter);
+app.use("/favorite", FavoriteRouter);
 
 app.listen(PORT, () => {
   console.log("Server started");
