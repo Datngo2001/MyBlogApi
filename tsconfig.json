@@ -25,6 +25,7 @@
     "src/**/*.ts", 
     "src/**/*.json", 
     ".env",
+    "firebase-cert.json"
   ],
   "exclude": ["node_modules", "src/http", "src/logs", "src/tests"]
 }
