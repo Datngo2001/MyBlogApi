@@ -34,11 +34,11 @@ ArticleRouter.get("/", async (req, res) => {
   }
 });
 
-ArticleRouter.get("by-author", async (req, res) => {
+ArticleRouter.get("/by-author", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit.toString());
     const skip = (parseInt(req.query.page.toString()) - 1) * limit;
-
+    console.log(req.query.author);
     const query = Article.find({
       author: req.query.author,
     })
@@ -51,7 +51,9 @@ ArticleRouter.get("by-author", async (req, res) => {
     const count = await query.clone().count();
 
     res.json({
-      articles: articles.map((article) => article?.toObject()),
+      articles: articles.map((article) => ({
+        ...article?.toObject(),
+      })),
       count: Math.round(count / limit) + 1,
     });
   } catch (error: any) {
