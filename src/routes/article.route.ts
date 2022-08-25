@@ -12,7 +12,7 @@ ArticleRouter.get("/", async (req, res) => {
     const limit = parseInt(req.query.limit.toString());
     const skip = (parseInt(req.query.page.toString()) - 1) * limit;
 
-    const articles = await Article.find({
+    const query = Article.find({
       title: { $regex: req.query.title, $options: "i" },
     })
       .sort({ createDate: "desc" })
@@ -20,11 +20,15 @@ ArticleRouter.get("/", async (req, res) => {
       .limit(limit)
       .populate("author");
 
-    res.json(
-      articles.map((article) => ({
+    const articles = await query;
+    const count = await query.clone().count();
+
+    res.json({
+      articles: articles.map((article) => ({
         ...article?.toObject(),
-      }))
-    );
+      })),
+      count: Math.round(count / limit) + 1,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -35,7 +39,7 @@ ArticleRouter.get("by-author", async (req, res) => {
     const limit = parseInt(req.query.limit.toString());
     const skip = (parseInt(req.query.page.toString()) - 1) * limit;
 
-    const articles = await Article.find({
+    const query = Article.find({
       author: req.query.author,
     })
       .sort({ createDate: "desc" })
@@ -43,7 +47,13 @@ ArticleRouter.get("by-author", async (req, res) => {
       .limit(limit)
       .populate("author");
 
-    res.json(articles.map((article) => article?.toObject()));
+    const articles = await query;
+    const count = await query.clone().count();
+
+    res.json({
+      articles: articles.map((article) => article?.toObject()),
+      count: Math.round(count / limit) + 1,
+    });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
