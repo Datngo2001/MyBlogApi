@@ -4,7 +4,6 @@ import cors from "cors";
 import { CLIENT_URL, DATABASE_URL, PORT } from "./config";
 import UserRouter from "./routes/user.route";
 import AuthRouter from "./routes/auth.route";
-import UploadRouter from "./routes/upload.route";
 import authenMiddleware from "./middlewares/authen.middleware";
 import ArticleRouter from "./routes/article.route";
 import FavoriteRouter from "./routes/favorite.route";
@@ -26,7 +25,6 @@ app.use(authenMiddleware);
 
 app.use("/auth", AuthRouter);
 app.use("/user", UserRouter);
-app.use("/upload", UploadRouter);
 app.use("/article", ArticleRouter);
 app.use("/favorite", FavoriteRouter);
 
