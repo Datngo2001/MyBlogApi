@@ -15,6 +15,7 @@ ArticleRouter.get("/", async (req, res) => {
     const query = Article.find({
       title: { $regex: req.query.title, $options: "i" },
     })
+      .select("-content")
       .sort({ createDate: "desc" })
       .skip(skip)
       .limit(limit)
@@ -42,6 +43,7 @@ ArticleRouter.get("/by-author", async (req, res) => {
     const query = Article.find({
       author: req.query.author,
     })
+      .select("-content")
       .sort({ createDate: "desc" })
       .skip(skip)
       .limit(limit)
