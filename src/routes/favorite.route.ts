@@ -38,7 +38,12 @@ FavoriteRouter.get(
         .sort({ createDate: "desc" })
         .skip(skip)
         .limit(limit)
-        .populate("article");
+        .populate({
+          path: "article",
+          populate: {
+            path: "user",
+          },
+        });
 
       const favorites = await query;
       const count = await query.clone().count();
