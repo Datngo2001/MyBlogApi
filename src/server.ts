@@ -7,6 +7,7 @@ import AuthRouter from "./routes/auth.route";
 import authenMiddleware from "./middlewares/authen.middleware";
 import ArticleRouter from "./routes/article.route";
 import FavoriteRouter from "./routes/favorite.route";
+import CommentRouter from "./routes/comment.route";
 
 mongoose.connect(DATABASE_URL);
 const database = mongoose.connection;
@@ -27,6 +28,7 @@ app.use("/auth", AuthRouter);
 app.use("/user", UserRouter);
 app.use("/article", ArticleRouter);
 app.use("/favorite", FavoriteRouter);
+app.use("/comment", CommentRouter);
 
 app.listen(PORT, () => {
   console.log("Server started");
