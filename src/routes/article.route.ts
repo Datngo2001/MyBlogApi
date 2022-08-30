@@ -28,7 +28,7 @@ ArticleRouter.get("/", async (req, res) => {
       articles: articles.map((article) => ({
         ...article?.toObject(),
       })),
-      count: Math.round(count / limit) + 1,
+      count: Math.floor(count / limit) + 1,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -56,7 +56,7 @@ ArticleRouter.get("/by-author", async (req, res) => {
       articles: articles.map((article) => ({
         ...article?.toObject(),
       })),
-      count: Math.round(count / limit) + 1,
+      count: Math.floor(count / limit) + 1,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });

@@ -53,7 +53,7 @@ FavoriteRouter.get(
         favorites: favorites.map((favorite) => ({
           ...favorite?.toObject(),
         })),
-        count: Math.round(count / limit) + 1,
+        count: Math.floor(count / limit) + 1,
       });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
