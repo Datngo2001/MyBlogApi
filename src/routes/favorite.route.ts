@@ -41,7 +41,8 @@ FavoriteRouter.get(
         .populate({
           path: "article",
           populate: {
-            path: "user",
+            path: "author",
+            model: "User",
           },
         });
 
