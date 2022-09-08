@@ -36,8 +36,6 @@ FavoriteRouter.get(
         user: req.query.user,
       })
         .sort({ createDate: "desc" })
-        .skip(skip)
-        .limit(limit)
         .populate({
           path: "article",
           populate: {
@@ -46,7 +44,7 @@ FavoriteRouter.get(
           },
         });
 
-      const favorites = await query;
+      const favorites = await query.clone().skip(skip).limit(limit);
       const count = await query.clone().count();
 
       res.json({

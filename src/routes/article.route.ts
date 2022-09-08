@@ -17,12 +17,10 @@ ArticleRouter.get("/", async (req, res) => {
     })
       .select("-content")
       .sort({ createDate: "desc" })
-      .skip(skip)
-      .limit(limit)
       .populate("author");
 
-    const articles = await query;
     const count = await query.clone().count();
+    const articles = await query.clone().skip(skip).limit(limit);
 
     res.json({
       articles: articles.map((article) => ({
@@ -45,11 +43,9 @@ ArticleRouter.get("/by-author", async (req, res) => {
     })
       .select("-content")
       .sort({ createDate: "desc" })
-      .skip(skip)
-      .limit(limit)
       .populate("author");
 
-    const articles = await query;
+    const articles = await query.clone().skip(skip).limit(limit);
     const count = await query.clone().count();
 
     res.json({
